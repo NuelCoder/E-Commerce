@@ -1,0 +1,67 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/pcuhub
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create  
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  kafka:
+      bootstrap-servers: localhost:9092
+      consumer:
+        group-id: default-group
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        properties:
+            spring.json.trusted.packages: com.example.pcuhub.pcuhub.dtos
+            spring.json.value.default.type: com.example.pcuhub.pcuhub.dtos.UserKafkaMessage
+            spring.json.use.type.headers: false
+      listener:
+        missing-topics-fatal: false
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: badejoiseoluwa@gmail.com
+    password: euavepxtlykogmrr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+app:
+  admin-secret: SECRET123
+  seed:
+    categories:
+      - Appliances
+      - Electronics
+      - Fashion
+      - Phones & Tablets
+      - Home & Office
+      - Health & Beauty
+      - Supermarket
+      - Computing
+      - Gaming
+  
+server:
+  port: 8081
+
+
+logging:
+  level:
+    org.springframework.mail: DEBUG
+    javax.mail: DEBUG
+
